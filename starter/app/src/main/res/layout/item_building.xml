@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Building Image -->
+        <ImageView
+            android:id="@+id/imageBuilding"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/building_image"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <!-- Building Name -->
+        <TextView
+            android:id="@+id/textBuildingName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageBuilding"
+            app:layout_constraintTop_toTopOf="@id/imageBuilding"
+            tools:text="Burj Khalifa" />
+
+        <!-- Location -->
+        <TextView
+            android:id="@+id/textBuildingLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/textBuildingName"
+            app:layout_constraintTop_toBottomOf="@id/textBuildingName"
+            tools:text="Dubai, UAE" />
+
+        <!-- Height and Floors -->
+        <TextView
+            android:id="@+id/textBuildingHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toStartOf="@id/textBuildingName"
+            app:layout_constraintTop_toBottomOf="@id/textBuildingLocation"
+            tools:text="828m" />
+
+        <TextView
+            android:id="@+id/textBuildingFloors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintStart_toEndOf="@id/textBuildingHeight"
+            app:layout_constraintTop_toTopOf="@id/textBuildingHeight"
+            tools:text="163 floors" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

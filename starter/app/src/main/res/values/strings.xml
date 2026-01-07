@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">Spire</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Navigation Labels -->
+    <string name="nav_buildings">Buildings</string>
+    <string name="nav_my_visits">My Visits</string>
+    <string name="nav_countries">Countries</string>
+    <string name="nav_statistics">Statistics</string>
+    <string name="nav_building_details">Building Details</string>
+
+    <!-- Common -->
+    <string name="retry">Retry</string>
+    <string name="loading">Loading…</string>
+    <string name="error_generic">An error occurred</string>
+
+    <!-- Empty States -->
+    <string name="empty_icon_buildings">🏢</string>
+    <string name="empty_icon_visits">📋</string>
+    <string name="empty_icon_countries">🌍</string>
+
+    <string name="empty_buildings_title">No buildings loaded</string>
+    <string name="empty_buildings_message">Pull down to refresh and load buildings</string>
+
+    <string name="empty_visits_title">No buildings yet</string>
+    <string name="empty_visits_message">Start exploring buildings to add them here</string>
+
+    <string name="empty_visited_title">No visited buildings yet</string>
+    <string name="empty_visited_message">Explore buildings and mark them as visited to see them here</string>
+
+    <string name="empty_bucket_list_title">Your bucket list is empty</string>
+    <string name="empty_bucket_list_message">Add buildings you want to visit to your bucket list</string>
+
+    <string name="empty_not_visited_title">All buildings tracked!</string>
+    <string name="empty_not_visited_message">You\'ve visited or added everything to your list</string>
+
+    <string name="empty_countries_title">No countries available</string>
+    <string name="empty_countries_message">Buildings data hasn\'t been loaded yet</string>
+
+    <!-- Visit Status Filters -->
+    <string name="filter_visited">Visited</string>
+    <string name="filter_bucket_list">Bucket List</string>
+    <string name="filter_not_visited">Not Visited</string>
+
+    <!-- Building Details -->
+    <string name="building_image">Building image</string>
+    <string name="button_add_to_bucket_list">Add to Bucket List</string>
+    <string name="button_remove_from_bucket_list">Remove from Bucket List</string>
+    <string name="button_mark_as_visited">Mark as Visited</string>
+    <string name="button_mark_as_unvisited">Mark as Unvisited</string>
+
+    <!-- Building Info Format Strings -->
+    <string name="building_location_format">%1$s, %2$s</string>
+    <string name="building_height_format">%1$dm</string>
+    <string name="building_height_label_format">Height: %1$dm</string>
+    <string name="building_floors_format">%1$d floors</string>
+    <string name="building_floors_label_format">Floors: %1$d</string>
+    <string name="building_year_format">Year Completed: %1$d</string>
+    <string name="building_style_format">Architectural Style: %1$s</string>
+    <string name="building_meters_climbed_format">%1$sm</string>
+
+    <!-- Statistics Labels -->
+    <string name="stat_total_buildings">Total Buildings</string>
+    <string name="stat_visited">Visited</string>
+    <string name="stat_bucket_list">Bucket List</string>
+    <string name="stat_meters_climbed">Total Meters Climbed</string>
+    <string name="stat_countries_explored">Countries Explored</string>
+
+    <!-- Success Messages -->
+    <string name="success_marked_visited">Marked as visited!</string>
+    <string name="success_added_bucket_list">Added to bucket list!</string>
+    <string name="success_status_updated">Status updated!</string>
+
+    <!-- Error Messages -->
+    <string name="error_refresh_buildings">Failed to refresh buildings. Please check your connection.</string>
+    <string name="error_load_countries">Failed to load countries. Please try again.</string>
+    <string name="error_update_visit_status">Failed to update visit status. Please try again.</string>
+    <string name="error_load_buildings">Failed to load buildings. Please try again.</string>
+    <string name="error_load_statistics">Failed to load statistics. Please try again.</string>
+</resources>
