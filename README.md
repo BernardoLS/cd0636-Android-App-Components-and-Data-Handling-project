@@ -13,6 +13,57 @@ This project demonstrates modern Android development practices and architectural
 - **Navigation Component** - Type-safe navigation with Safe Args
 - **Coroutines** - Asynchronous op erations with proper lifecycle management
 
+## Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     PRESENTATION LAYER                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │   Compose    │  │   Compose    │  │  Navigation  │   │
+│  │   Screens    │  │  Components  │  │              │   │
+│  └──────┬───────┘  └──────────────┘  └──────────────┘   │
+│         │                                               │
+│         │ observes LiveData/Flow                        │
+│         ▼                                               │
+│  ┌──────────────┐                                       │
+│  │  ViewModels  │◄─── Lifecycle-aware                   │
+│  └──────┬───────┘                                       │
+└─────────┼───────────────────────────────────────────────┘
+          │
+          │ calls repository methods
+          ▼
+┌─────────────────────────────────────────────────────────┐
+│                     DOMAIN LAYER                        │
+│  ┌──────────────┐  ┌──────────────┐                     │
+│  │    Domain    │  │  Repository  │                     │
+│  │    Models    │  │  Interface   │                     │
+│  └──────────────┘  └──────┬───────┘                     │
+└─────────────────────────────┼───────────────────────────┘
+                              │
+                              │ implements
+                              ▼
+┌─────────────────────────────────────────────────────────┐
+│                      DATA LAYER                         │
+│  ┌──────────────┐                  ┌──────────────┐     │
+│  │    LOCAL     │                  │    REMOTE    │     │
+│  │              │                  │              │     │
+│  │  Room DB     │◄─────────────────┤   Retrofit   │     │
+│  │  - Entity    │  caches data     │   - API      │     │
+│  │  - DAO       │                  │   - DTOs     │     │
+│  │  - Database  │                  │              │     │
+│  └──────────────┘                  └──────────────┘     │
+│         ▲                                  ▲            │
+│         │                                  │            │
+│         └────────────┬─────────────────────┘            │
+│                      │                                  │
+│              ┌───────┴────────┐                         │
+│              │  Repository    │                         │
+│              │  Implementation│                         │
+│              └────────────────┘                         │
+└─────────────────────────────────────────────────────────┘
+```
+
+
 ## Starter Code
 
 [A minimal starter project has been provided](https://github.com/udacity/cd0636-Android-App-Components-and-Data-Handling-project). It includes the following:
