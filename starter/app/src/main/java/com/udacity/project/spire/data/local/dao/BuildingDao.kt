@@ -61,7 +61,7 @@ interface BuildingDao {
     /**
      * Get all buildings with their city and country details.
      *
-     * TODO: Add annotations
+     * TODO #10: Add annotations
      *  - @Transaction (loads BuildingWithDetails with nested relations)
      *  - @Query: "SELECT * FROM buildings ORDER BY id ASC"
      *
@@ -72,7 +72,7 @@ interface BuildingDao {
     /**
      * Get all buildings as a PagingSource for Paging 3.
      *
-     * TODO: Add annotations
+     * TODO #11: Add annotations
      *  - @Transaction (loads BuildingWithDetails)
      *  - @Query: "SELECT * FROM buildings ORDER BY id ASC"
      *
@@ -86,7 +86,7 @@ interface BuildingDao {
     /**
      * Get a specific building by ID with city and country details.
      *
-     * TODO: Add annotations
+     * TODO #12: Add annotations
      *  - @Transaction (loads BuildingWithDetails)
      *  - @Query: "SELECT * FROM buildings WHERE id = :id"
      *
@@ -100,7 +100,7 @@ interface BuildingDao {
     /**
      * Get all buildings in a specific country by country name.
      *
-     * TODO: Add annotations
+     * TODO #13: Add annotations
      *  - @Transaction (loads BuildingWithDetails)
      *  - @Query with triple JOIN:
      *    """
@@ -123,7 +123,7 @@ interface BuildingDao {
     /**
      * Get all buildings with a specific visit status.
      *
-     * TODO: Add annotations
+     * TODO #14: Add annotations
      *  - @Transaction (loads BuildingWithDetails)
      *  - @Query: "SELECT * FROM buildings WHERE visitStatus = :status ORDER BY id ASC"
      *
@@ -137,7 +137,7 @@ interface BuildingDao {
     /**
      * Insert multiple buildings, replacing on conflict.
      *
-     * TODO: Add annotation
+     * TODO #15: Add annotation
      *  - @Insert(onConflict = OnConflictStrategy.REPLACE)
      *
      * Called by RemoteMediator after fetching data from API
@@ -150,7 +150,7 @@ interface BuildingDao {
     /**
      * Update an existing building.
      *
-     * TODO: Add annotation
+     * TODO #16: Add annotation
      *  - @Update
      *
      * Used to update visitStatus when user marks building as visited/bucket list
@@ -163,7 +163,7 @@ interface BuildingDao {
     /**
      * Clear all buildings from the database.
      *
-     * TODO: Add annotation
+     * TODO #17: Add annotation
      *  - @Query: "DELETE FROM buildings"
      *
      * Used during REFRESH to reset local cache
@@ -174,7 +174,7 @@ interface BuildingDao {
     /**
      * Get the total count of buildings.
      *
-     * TODO: Add annotation
+     * TODO #18: Add annotation
      *  - @Query: "SELECT COUNT(*) FROM buildings"
      *
      * Used in StatisticsScreen to show total buildings available
@@ -186,7 +186,7 @@ interface BuildingDao {
     /**
      * Get the count of buildings with a specific visit status.
      *
-     * TODO: Add annotation
+     * TODO #19: Add annotation
      *  - @Query: "SELECT COUNT(*) FROM buildings WHERE visitStatus = :status"
      *
      * Used in StatisticsScreen to show visited count and bucket list count
@@ -199,7 +199,7 @@ interface BuildingDao {
     /**
      * Get the count of unique countries where buildings have been visited.
      *
-     * TODO: Add annotation
+     * TODO #20: Add annotation
      *  - @Query with triple JOIN and COUNT(DISTINCT):
      *    """
      *    SELECT COUNT(DISTINCT co.id) FROM countries AS co
@@ -222,7 +222,7 @@ interface BuildingDao {
     /**
      * Get the total height of all buildings with a specific visit status.
      *
-     * TODO: Add annotation
+     * TODO #21: Add annotation
      *  - @Query: "SELECT SUM(heightMeters) FROM buildings WHERE visitStatus = :status"
      *
      * Used in StatisticsScreen to show "Total Meters Climbed"

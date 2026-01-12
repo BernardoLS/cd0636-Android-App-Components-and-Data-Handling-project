@@ -37,7 +37,10 @@ import com.udacity.project.spire.domain.model.VisitStatus
  */
 data class BuildingEntity(
     val id: Int,
-    //Todo: Add remaining properties
+    // TODO (Part of #3): Add remaining properties
+    // Refer to Building domain model for the complete list of properties needed
+    // Include: name, imageUrl, heightMeters, floors, yearCompleted, architecturalStyle,
+    //          description, visitStatus (as VisitStatusEntity), cityId (foreign key)
 
 )
 
@@ -94,7 +97,9 @@ data class CityWithCountry(
 fun BuildingWithDetails.toDomainModel(): Building {
     return Building(
         id = building.id,
-        //Todo: Add remaining properties
+        // TODO (Part of #4): Add remaining properties
+        // Map all properties from building, city, and country to the Building domain model
+        // Use city.city.name, city.country.name, building.visitStatus.toDomainModel(), etc.
     )
 }
 

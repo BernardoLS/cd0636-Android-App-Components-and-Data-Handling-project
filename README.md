@@ -3,16 +3,6 @@
 A travel companion Android app that helps users explore famous buildings around the world. Users can browse buildings, view detailed information, track their visits, and maintain a bucket list of buildings they want to see.
 
 ## Project Overview
-
-
-
-| ![](doc/1.png) | ![](doc/2.png) | ![](doc/3.png) |
-| ------ | ----- | ------- |
-| ![](doc/4.png) | ![](doc/5.png) | ![](doc/6.png) |
-| ![](doc/7.png) |  |  |
-
-
-
 This project demonstrates modern Android development practices and architectural patterns for the Udacity Android Nanodegree program. You will build a complete application that showcases:
 
 - **MVVM Architecture** - Separation of concerns with ViewModels, LiveData, and Flow
@@ -21,22 +11,66 @@ This project demonstrates modern Android development practices and architectural
 - **Paging3 Library** - Efficient pagination for large datasets
 - **Error Handling** - Comprehensive error management with Result wrapper and Event pattern
 - **Navigation Component** - Type-safe navigation with Safe Args
-- **Coroutines** - Asynchronous operations with proper lifecycle management
+- **Coroutines** - Asynchronous op erations with proper lifecycle management
+
+## Starter Code
+
+[A minimal starter project has been provided](https://github.com/udacity/cd0636-Android-App-Components-and-Data-Handling-project). It includes the following:
+
+### What's Provided
+
+* **Complete project structure** with MVVM architecture setup
+* **Entity and DAO skeleton classes** (annotations and queries required)
+* **Retrofit API integration** (service and provider complete)
+* **All UI components** - 5 Fragments, 5 ViewModels, adapters (implementation required)
+* **Navigation graph and layouts** (all XML resources complete)
+* **Domain models and error handling patterns** (complete, no changes needed)
+
+### What's NOT Included (What You'll Implement)
+
+Students will implement **50 TODOs** spanning:
+* Room database annotations and queries
+* Paging3 RemoteMediator for network-database synchronization
+* Complete repository implementation with offline-first architecture
+* ViewModel initialization and interaction methods
+* RecyclerView adapter binding logic
+* Navigation setup in MainActivity
+* Application repository setup
+* Fragment UI implementation (BuildingDetailFragment)
+
+> [!IMPORTANT]
+> **Recommended Implementation Order**: The TODO comments in the code are numbered (TODO-1, TODO-2, etc.) to suggest a logical implementation sequence. While you can approach tasks in any order, following the numbered sequence will help ensure dependencies are handled smoothly. Start with the database setup (TODO-1), then move to the repository layer, and finally implement the UI components.
+
+
+#### Existing Starter Code Structure
+```
+app/src/main/java/com/udacity/explorewithme/
+├── data/
+│   ├── model/         # Building, Location, Country data classes (PROVIDED)
+│   └── repository/    # TODO: Create repository classes
+├── database/
+│   ├── dao/          # TODO: Create DAO interfaces
+│   └── AppDatabase   # TODO: Setup Room database
+├── ui/
+│   ├── buildings/    # BuildingsFragment and RecyclerView adapter (PROVIDED)
+│   ├── countries/    # CountriesFragment (PROVIDED - display only)
+│   ├── visits/       # TODO: Implement VisitsFragment with Google Maps
+│   └── statistics/   # TODO: Implement StatisticsFragment
+└── MainActivity      # Navigation setup (PROVIDED)
+```
 
 ## Core Features
 
 ### User-Facing Features
-- **Browse Buildings** - Scroll through a paginated list of famous buildings worldwide
-- **Building Details** - View comprehensive information including height, floors, year completed, and architectural style
-- **Visit Tracking** - Mark buildings as Visited, Bucket List, or Not Visited
-- **My Visits** - Filter and view buildings by visit status using chip filters
-- **Countries Explorer** - Browse unique countries with buildings
-- **Statistics Dashboard** - Track your progress with aggregated statistics:
 
-  - Total buildings available
-  - Buildings visited count
-  - Bucket list count
-  - Total meters climbed (sum of visited building heights)
+| Feature | Screenshot                          |
+|---------|-------------------------------------|
+| **Browse Buildings**<br>Scroll through a paginated list of famous buildings worldwide | <img src="doc/1.png" height="400">  |
+| **Building Details**<br>View comprehensive information, including height, floors, year completed, and architectural style | <img src="doc/2.png" height="400">  |
+| **Visit Tracking**<br>Mark buildings as Visited, Bucket List, or Not Visited | <img src="doc/3.png" height="400">  |
+| **My Visits**<br>Filter and view buildings by visit status using chip filters | <img src="doc/4.png" height="400">  |
+| **Countries Explorer**<br>Browse unique countries with buildings | <img src="doc/5.png" height="400">  |
+| **Statistics Dashboard**<br>Track your progress with aggregated statistics:<br>• Total buildings available<br>• Buildings visited count<br>• Bucket list count<br>• Total meters climbed (sum of visited building heights) | <img src="doc/6.png" height="400">  |
 
 ### Technical Features
 - **Offline-First** - All data cached locally, works without internet
@@ -95,7 +129,8 @@ io.coil-kt:coil
    
    ```bash
  	git clone git@github.com:udacity/cd0636-Android-App-Components-and-Data-Handling-project.git
-   cd cd0636-Android-App-Components-and-Data-Handling/project/solution
+   
+    cd cd0636-Android-App-Components-and-Data-Handling/project/solution
    ```
 
 2. **Open in Android Studio**
@@ -246,6 +281,10 @@ Create DAOs with queries for:
 
 **1. Paging3**
 
+> [!NOTE]
+> **Advanced Features (Optional)**: These features are not required to meet the project requirements but are excellent additions for students who finish early or want to challenge themselves further. They will not be part of the grading rubric.
+
+
 - Use `Pager` with `PagingConfig` in repository
 - Connect `BuildingLoadStateAdapter` with `withLoadStateFooter()`
 - Handle empty state based on `LoadState`
@@ -276,6 +315,12 @@ Create DAOs with queries for:
 6. **App compiles and runs** without crashes
 7. **Code follows Kotlin conventions** (proper use of `val`/`var`, null safety, etc.)
 8. **Comments explaining complex logic**
+
+> [!NOTE]
+> **Testing (Optional but Recommended)**: While not required for project submission, writing tests for your Repository classes and ViewModels is excellent practice. Consider adding:
+> - Unit tests for Repository methods
+> - DAO tests using an in-memory database
+> - ViewModel tests for business logic
 
 
 **Rubric Checklist:**

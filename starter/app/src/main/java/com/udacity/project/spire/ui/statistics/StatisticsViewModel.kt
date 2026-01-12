@@ -49,7 +49,7 @@ class StatisticsViewModel(
      *
      * HINT: Add init { loadStatistics() } - runs when ViewModel is created
      */
-    // TODO: Add init block here
+    // Add the init block here (see TODO #42a above)
 
     /**
      * TODO #42b: Implement loadStatistics() method

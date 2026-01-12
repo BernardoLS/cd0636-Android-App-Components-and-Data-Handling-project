@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
          * - setupActionBarWithNavController links toolbar to navigation
          * - setupWithNavController links bottom nav to navigation (auto-selects tabs)
          */
-        // TODO: Implement navigation setup here
+        // Implement the steps above here
     }
 
     /**

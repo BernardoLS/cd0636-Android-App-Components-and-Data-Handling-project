@@ -15,8 +15,14 @@ class SpireApplication : Application() {
     }
 
     private fun initializeRepository() {
-        // TODO: Replace MockBuildingRepository with DefaultBuildingRepository
-        // after implementing Room database, API service, and repository methods
+        // TODO #47: Replace MockBuildingRepository with DefaultBuildingRepository
+        // Complete this AFTER implementing TODOs #29-37 (Repository methods)
+        //
+        // Steps:
+        // 1. Get database instance: SpireDatabase.getInstance(this)
+        // 2. Get API service: ApiServiceProvider.getApiService()
+        // 3. Create DefaultBuildingRepository(database, apiService)
+        // 4. Assign to buildingRepository property
         //
         // Expected implementation:
         // val database = SpireDatabase.getInstance(this)
