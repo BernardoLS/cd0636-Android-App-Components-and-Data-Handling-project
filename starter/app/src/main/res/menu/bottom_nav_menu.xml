@@ -6,11 +6,6 @@
         android:title="Buildings" />
 
     <item
-        android:id="@+id/countriesFragment"
-        android:icon="@android:drawable/ic_menu_mapmode"
-        android:title="Countries" />
-
-    <item
         android:id="@+id/myVisitsFragment"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="My Visits" />

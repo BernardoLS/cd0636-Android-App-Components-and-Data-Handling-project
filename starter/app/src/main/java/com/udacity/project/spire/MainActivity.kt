@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
      */
     private val topLevelDestinations = setOf(
         R.id.buildingsFragment,
-        R.id.countriesFragment,
         R.id.myVisitsFragment,
         R.id.statisticsFragment
     )
