@@ -17,17 +17,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/countriesFragment"
-        android:name="com.udacity.project.spire.ui.countries.CountriesFragment"
-        android:label="Countries"
-        tools:layout="@layout/fragment_countries">
-
-        <action
-            android:id="@+id/action_countries_to_detail"
-            app:destination="@id/buildingDetailFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/myVisitsFragment"
         android:name="com.udacity.project.spire.ui.visits.MyVisitsFragment"
         android:label="My Visits"

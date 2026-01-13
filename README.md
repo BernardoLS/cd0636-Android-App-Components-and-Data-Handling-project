@@ -73,7 +73,7 @@ This project demonstrates modern Android development practices and architectural
 * **Complete project structure** with MVVM architecture setup
 * **Entity and DAO skeleton classes** (annotations and queries required)
 * **Retrofit API integration** (service and provider complete)
-* **All UI components** - 5 Fragments, 5 ViewModels, adapters (implementation required)
+* **All UI components** - 4 Fragments, 4 ViewModels, adapters (implementation required)
 * **Navigation graph and layouts** (all XML resources complete)
 * **Domain models and error handling patterns** (complete, no changes needed)
 
@@ -95,33 +95,31 @@ Students will implement **50 TODOs** spanning:
 
 #### Existing Starter Code Structure
 ```
-app/src/main/java/com/udacity/explorewithme/
+app/src/main/java/com/udacity/project/spire
 ├── data/
-│   ├── model/         # Building, Location, Country data classes (PROVIDED)
-│   └── repository/    # TODO: Create repository classes
+│   ├── model/        # Building, Location, Country data classes 
+│   └── repository/   # TODO: Create repository classes
 ├── database/
 │   ├── dao/          # TODO: Create DAO interfaces
 │   └── AppDatabase   # TODO: Setup Room database
 ├── ui/
-│   ├── buildings/    # BuildingsFragment and RecyclerView adapter (PROVIDED)
-│   ├── countries/    # CountriesFragment (PROVIDED - display only)
-│   ├── visits/       # TODO: Implement VisitsFragment with Google Maps
+│   ├── buildings/    # TODO: BuildingsFragment and RecyclerView adapter
+│   ├── visits/       # TODO: Implement VisitsFragment
 │   └── statistics/   # TODO: Implement StatisticsFragment
-└── MainActivity      # Navigation setup (PROVIDED)
+└── MainActivity      # TODO: Navigation setup 
 ```
 
 ## Core Features
 
 ### User-Facing Features
 
-| Feature | Screenshot                          |
-|---------|-------------------------------------|
-| **Browse Buildings**<br>Scroll through a paginated list of famous buildings worldwide | <img src="doc/1.png" height="400">  |
-| **Building Details**<br>View comprehensive information, including height, floors, year completed, and architectural style | <img src="doc/2.png" height="400">  |
-| **Visit Tracking**<br>Mark buildings as Visited, Bucket List, or Not Visited | <img src="doc/3.png" height="400">  |
-| **My Visits**<br>Filter and view buildings by visit status using chip filters | <img src="doc/4.png" height="400">  |
-| **Countries Explorer**<br>Browse unique countries with buildings | <img src="doc/5.png" height="400">  |
-| **Statistics Dashboard**<br>Track your progress with aggregated statistics:<br>• Total buildings available<br>• Buildings visited count<br>• Bucket list count<br>• Total meters climbed (sum of visited building heights) | <img src="doc/6.png" height="400">  |
+| Feature | Screenshot                         |
+|---------|------------------------------------|
+| **Browse Buildings**<br>Scroll through a paginated list of famous buildings worldwide | <img src="doc/1.png" height="400"> |
+| **Building Details**<br>View comprehensive information, including height, floors, year completed, and architectural style | <img src="doc/7.png" height="400"> |
+| **Visit Tracking**<br>Mark buildings as Visited, Bucket List, or Not Visited | <img src="doc/3.png" height="400"> |
+| **My Visits**<br>Filter and view buildings by visit status using chip filters | <img src="doc/4.png" height="400"> |
+| **Statistics Dashboard**<br>Track your progress with aggregated statistics:<br>• Total buildings available<br>• Buildings visited count<br>• Bucket list count<br>• Total meters climbed (sum of visited building heights) | <img src="doc/6.png" height="400"> |
 
 ### Technical Features
 - **Offline-First** - All data cached locally, works without internet
@@ -245,12 +243,11 @@ By completing this project, you will demonstrate your ability to:
 
 ### What You'll Build
 
-**5 Screens:**
+**4 Screens:**
 1. **Buildings Screen** - Paginated list of all buildings
 2. **Building Detail Screen** - Detailed view with visit status controls (Visited, Bucket List, Not Visited)
 3. **My Visits Screen** - Filtered list with chip group to toggle between visit statuses
-4. **Countries Screen** - List of unique countries
-5. **Statistics Screen** - Aggregated statistics (total buildings, visits, meters climbed)
+4. **Statistics Screen** - Aggregated statistics (total buildings, visits, meters climbed)
 
 
 ### Technical Requirements
@@ -285,14 +282,14 @@ Create DAOs with queries for:
 
 #### UI Layer
 
-**1. ViewModels** (5 ViewModels - one per screen)
+**1. ViewModels** (4 ViewModels - one per screen)
 
 - Expose data as `LiveData` or `Flow`
 - Implement error handling with Event wrapper pattern
 - Use `viewModelScope` for coroutine launches
 - Handle loading states appropriately
 
-**2. Fragments** (5 Fragments)
+**2. Fragments** (4 Fragments)
 
 - Use View Binding for type-safe view access
 - Set up RecyclerView with appropriate adapters
@@ -360,7 +357,7 @@ Create DAOs with queries for:
 
 1. **Complete implementation** of all TODO items in starter code
 2. **Proper error handling** in all ViewModels
-3. **Empty state UI** for all list screens (Buildings, My Visits, Countries)
+3. **Empty state UI** for all list screens (Buildings, My Visits)
 4. **Working Paging3** implementation with LoadStateAdapter
 5. **Functional navigation** between all screens
 6. **App compiles and runs** without crashes
@@ -382,7 +379,7 @@ Create DAOs with queries for:
 - [ ] ViewModels expose immutable `LiveData` (not `MutableLiveData`)
 - [ ] Error handling with Event wrapper pattern
 - [ ] Paging3 with LoadStateAdapter connected
-- [ ] Empty states on Buildings, My Visits, and Countries screens
+- [ ] Empty states on Buildings and My Visits screens
 - [ ] Navigation with Safe Args between screens
 - [ ] No memory leaks (binding cleaned up in `onDestroyView`)
 - [ ] Proper coroutine usage (`viewModelScope`, correct dispatchers)
