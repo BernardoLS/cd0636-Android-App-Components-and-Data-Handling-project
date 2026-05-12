@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/buildingsFragment"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="Buildings" />
+
+    <item
+        android:id="@+id/myVisitsFragment"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="My Visits" />
+
+    <item
+        android:id="@+id/statisticsFragment"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="Statistics" />
+</menu>

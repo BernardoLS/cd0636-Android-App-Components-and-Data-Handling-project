@@ -1,0 +1,11 @@
+# A simple GET request
+GET https://spire-3oxocbdifa-uc.a.run.app
+
+###
+GET https://spire-3oxocbdifa-uc.a.run.app/api/buildings
+
+###
+GET https://spire-3oxocbdifa-uc.a.run.app/api/buildings/paginated?offset=0&limit=10
+
+###
+GET https://spire-3oxocbdifa-uc.a.run.app/api/buildings?page=1&limit=10

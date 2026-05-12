@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/buildingsFragment">
+
+    <fragment
+        android:id="@+id/buildingsFragment"
+        android:name="com.udacity.project.spire.ui.buildings.BuildingsFragment"
+        android:label="Buildings"
+        tools:layout="@layout/fragment_buildings">
+
+        <action
+            android:id="@+id/action_buildings_to_detail"
+            app:destination="@id/buildingDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myVisitsFragment"
+        android:name="com.udacity.project.spire.ui.visits.MyVisitsFragment"
+        android:label="My Visits"
+        tools:layout="@layout/fragment_my_visits">
+
+        <action
+            android:id="@+id/action_visits_to_detail"
+            app:destination="@id/buildingDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.udacity.project.spire.ui.statistics.StatisticsFragment"
+        android:label="Statistics"
+        tools:layout="@layout/fragment_statistics" />
+
+    <fragment
+        android:id="@+id/buildingDetailFragment"
+        android:name="com.udacity.project.spire.ui.detail.BuildingDetailFragment"
+        android:label="Building Details"
+        tools:layout="@layout/fragment_building_detail">
+
+        <argument
+            android:name="buildingId"
+            app:argType="integer" />
+    </fragment>
+
+</navigation>
