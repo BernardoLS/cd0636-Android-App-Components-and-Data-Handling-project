@@ -15,8 +15,10 @@
   },
   "main": "index.js",
   "dependencies": {
+    "express": "^4.21.2",
     "firebase-admin": "^12.6.0",
-    "firebase-functions": "^7.0.2"
+    "firebase-functions": "^7.0.2",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "eslint": "^8.15.0",
