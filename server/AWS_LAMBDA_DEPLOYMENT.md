@@ -9,13 +9,11 @@ for future reference / re-deploys.
 
 | Item | Value |
 | --- | --- |
-| AWS Account | `927332201211` |
+| AWS Account | `udacity-content` |
 | Region | `us-east-1` |
 | Function name | `cd0636-spire-api` |
 | Execution role | `cd0636-spire-lambda-role` |
 | Runtime / Arch | `nodejs22.x` / `arm64` |
-| Handler | `lambda.handler` |
-| AWS CLI profile | `udacity-content` |
 | **Public URL** | `https://nmzmnl3hly5odkriglauqar4uy0hinjr.lambda-url.us-east-1.on.aws/` |
 
 ### Live endpoints
@@ -27,18 +25,19 @@ for future reference / re-deploys.
 
 ## What changed in the code
 
-The Express app is platform-agnostic and shared by two entry points:
+The Express app is now platform-agnostic and lives in `functions/app.js` — the app and
+all routes, extracted from the old `index.js`, with `firebase-functions/logger` replaced
+by `console`. It has no Firebase dependency, so the Lambda bundle stays small.
 
-- `functions/app.js` — the Express app + all routes (extracted from the old `index.js`;
-  `firebase-functions/logger` replaced with `console`). No Firebase dependency, so the
-  Lambda bundle stays small.
+`app.js` is shared by two entry points:
 - `functions/lambda.js` — **AWS Lambda** entry: wraps `app.js` with
   [`serverless-http`](https://www.npmjs.com/package/serverless-http). Lambda Function URLs
   deliver API Gateway *payload format 2.0* events, which `serverless-http` detects via
   `event.rawPath`.
 - `functions/index.js` — **Firebase** entry, unchanged behaviour: `onRequest` wrapping the
   shared `app.js` (Firebase deploy still works).
-- `functions/package.json` — added `express` and `serverless-http` dependencies.
+
+`functions/package.json` gains the `express` and `serverless-http` dependencies.
 
 > The Lambda deployment bundle ships only `express` + `serverless-http` (not
 > `firebase-admin`/`firebase-functions`), keeping the zip ~0.9 MB.
@@ -50,18 +49,15 @@ The Express app is platform-agnostic and shared by two entry points:
 - **Encryption at rest:** Lambda code and environment are encrypted at rest by default
   using an AWS-managed KMS key.
 - **Encryption in transit:** Lambda Function URLs are **HTTPS-only** (TLS).
-- **Temporary credentials:** deployed using session-token (temporary) credentials stored
-  in the named `udacity-content` profile — not hard-coded.
 - **Public access is intentional and reviewed** (project requirement). It is achieved
-  with a Lambda Function URL — no EC2/security-group ports are opened to `0.0.0.0/0`.
-- **Resource tags:** `Creator=sudhanshu.kulshrestha@udacity.com`, `Project=cd0636`.
+  with a Lambda Function URL.
 
 ---
 
 ## Reproducible deployment commands
 
 > All commands assume the `udacity-content` profile is configured with valid (temporary)
-> credentials for account `927332201211` and region `us-east-1`.
+> credentials for the target AWS account and region `us-east-1`.
 
 ### 0. Configure the AWS CLI profile (temporary credentials)
 
@@ -129,7 +125,7 @@ aws iam attach-role-policy \
 aws lambda create-function \
   --function-name cd0636-spire-api \
   --runtime nodejs22.x \
-  --role arn:aws:iam::927332201211:role/cd0636-spire-lambda-role \
+  --role arn:aws:iam::<ACCOUNT_ID>:role/cd0636-spire-lambda-role \
   --handler lambda.handler \
   --zip-file fileb://function.zip \
   --timeout 15 \
@@ -192,17 +188,23 @@ curl -s "$URL/api/buildings/paginated?offset=2&limit=3"
 curl -s -w '\n[HTTP %{http_code}]\n' "$URL/api/buildings?page=999&limit=10"   # -> 404
 ```
 
----
+### 7. Set CloudWatch Logs retention (30 days)
 
-## Updating the function later
+The Lambda log group was created with no expiry (`retentionInDays: None`); retention was
+set to 30 days to cap log-storage cost.
 
 ```bash
-# rebuild the zip (Step 1) then:
-aws lambda update-function-code \
-  --function-name cd0636-spire-api \
-  --zip-file fileb://function.zip \
-  --region us-east-1 --profile udacity-content
+aws logs put-retention-policy \
+  --log-group-name /aws/lambda/cd0636-spire-api \
+  --retention-in-days 30 --region us-east-1 --profile udacity-content
+
+# verify
+aws logs describe-log-groups --log-group-name-prefix /aws/lambda/cd0636-spire-api \
+  --region us-east-1 --profile udacity-content \
+  --query 'logGroups[].{name:logGroupName,retentionDays:retentionInDays}' --output table
 ```
+
+---
 
 ## Useful inspection commands
 
@@ -212,7 +214,4 @@ aws lambda get-function-url-config --function-name cd0636-spire-api \
 
 aws lambda get-policy --function-name cd0636-spire-api \
   --region us-east-1 --profile udacity-content --query Policy --output text | python3 -m json.tool
-
-aws logs tail /aws/lambda/cd0636-spire-api --since 10m \
-  --region us-east-1 --profile udacity-content
 ```
