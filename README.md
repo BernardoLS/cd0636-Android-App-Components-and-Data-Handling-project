@@ -1,3 +1,4 @@
+Forking project from nano degree Data Handling module. Main branch represents starter code and solution branch my contains my code.
 # Spire - Building Explorer
 
 A travel companion Android app that helps users explore famous buildings around the world. Users can browse buildings, view detailed information, track their visits, and maintain a bucket list of buildings they want to see.
