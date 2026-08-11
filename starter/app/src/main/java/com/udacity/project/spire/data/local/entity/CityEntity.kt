@@ -1,10 +1,16 @@
 package com.udacity.project.spire.data.local.entity
 
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import java.util.Formattable
+
 /**
  * Room entity representing a city.
  * A city belongs to a country and can have many buildings.
  *
- * TODO #2: Add Room annotations for the City entity
+ *  #2: Add Room annotations for the City entity
  *  1. Mark this class as @Entity with tableName = "cities"
  *  2. Add @PrimaryKey annotation to 'id' with autoGenerate = true
  *  3. Add @ForeignKey constraint to link city to country:
@@ -27,7 +33,22 @@ package com.udacity.project.spire.data.local.entity
  *  - androidx.room.ForeignKey
  *  - androidx.room.Index
  */
+@Entity(
+    tableName = "cities",
+foreignKeys = [ForeignKey(
+    entity = CountryEntity::class,
+    parentColumns = ["id"],
+    childColumns = ["countryId"],
+    onDelete = ForeignKey.CASCADE,
+    onUpdate = ForeignKey.CASCADE
+)],
+    indices = [
+        Index("countryId"),
+        Index("name", "countryId", unique = true)
+    ]
+)
 data class CityEntity(
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
     val countryId: Int
