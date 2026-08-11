@@ -3,7 +3,7 @@
 # Build & Core Tooling
 # ===================================
 # Android Gradle Plugin - Builds Android apps
-agp = "8.13.2"
+agp = "9.2.1"
 # Kotlin language version
 kotlin = "2.3.0"
 # KSP (Kotlin Symbol Processing) - Annotation processor for Room, etc.
