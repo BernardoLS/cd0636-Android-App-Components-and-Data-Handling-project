@@ -120,7 +120,7 @@ interface BuildingRepository {
  * @param apiService Remote API service
  * @param ioDispatcher Coroutine dispatcher for IO operations (default: Dispatchers.IO)
  *
- * TODO #29-37: Implement all 9 repository methods
+ * #29-37: Implement all 9 repository methods
  *
  * KEY PATTERNS TO FOLLOW:
  *

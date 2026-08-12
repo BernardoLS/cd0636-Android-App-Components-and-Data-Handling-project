@@ -19,7 +19,7 @@ import com.udacity.project.spire.data.local.entity.CountryEntity
  * Room Database for the Spire application.
  * Manages local persistence of building, city, and country data.
  *
- * TODO #22: Configure Room Database with annotations
+ * #22: Configure Room Database with annotations
  *
  *  1. Add @Database annotation with:
  *     entities = [
