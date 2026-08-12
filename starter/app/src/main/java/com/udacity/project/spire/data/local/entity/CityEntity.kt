@@ -53,3 +53,14 @@ data class CityEntity(
     val name: String,
     val countryId: Int
 )
+
+/**
+ * Extension function to convert CityDto to CityEntity.
+ */
+fun com.udacity.project.spire.data.remote.dto.CityDto.toEntity(countryId: Int): CityEntity {
+    return CityEntity(
+        id = id,
+        name = name,
+        countryId = countryId
+    )
+}

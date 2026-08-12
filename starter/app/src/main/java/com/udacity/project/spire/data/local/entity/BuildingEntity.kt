@@ -39,7 +39,7 @@ data class BuildingEntity(
     val id: Int,
     val name: String,
     val imageUrl: String,
-    val heightMeter: Float,
+    val heightMeters: Int,
     val floors: Int,
     val yearCompleted: Int,
     val architecturalStyle: String,
@@ -115,14 +115,14 @@ fun BuildingWithDetails.toDomainModel(): Building {
         id = building.id,
         name = building.name,
         imageUrl = building.imageUrl,
-        heightMeter = building.heightMeter,
+        heightMeters = building.heightMeters,
         floors = building.floors,
         yearCompleted = building.yearCompleted,
         architecturalStyle = building.architecturalStyle,
         description = building.description,
         visitStatus = building.visitStatus.toDomainModel(),
-        cityName = city.city.name,
-        countryName = city.country.name
+        city = city.city.name,
+        country = city.country.name
     )
 }
 
@@ -146,4 +146,42 @@ fun VisitStatus.toEntity(): VisitStatusEntity {
         VisitStatus.BUCKET_LIST -> VisitStatusEntity.BUCKET_LIST
         VisitStatus.VISITED -> VisitStatusEntity.VISITED
     }
+}
+
+/**
+ * Extension function to convert domain Building model to BuildingEntity.
+ * @param cityId The ID of the city this building belongs to
+ */
+fun Building.toEntity(cityId: Int): BuildingEntity {
+    return BuildingEntity(
+        id = id,
+        name = name,
+        imageUrl = imageUrl,
+        heightMeters = heightMeters,
+        floors = floors,
+        yearCompleted = yearCompleted,
+        architecturalStyle = architecturalStyle,
+        description = description,
+        visitStatus = visitStatus.toEntity(),
+        cityId = cityId
+    )
+}
+
+/**
+ * Extension function to convert BuildingDto to BuildingEntity.
+ * @param cityId The ID of the city this building belongs to
+ */
+fun com.udacity.project.spire.data.remote.dto.BuildingDto.toEntity(cityId: Int): BuildingEntity {
+    return BuildingEntity(
+        id = id,
+        name = name,
+        imageUrl = imageUrl,
+        heightMeters = heightMeters,
+        floors = floors,
+        yearCompleted = yearCompleted,
+        architecturalStyle = architecturalStyle,
+        description = description,
+        visitStatus = VisitStatusEntity.NOT_VISITED,
+        cityId = cityId
+    )
 }

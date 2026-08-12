@@ -266,6 +266,6 @@ interface BuildingDao {
      * @param status The visit status to filter by (default: VISITED)
      * @return Sum of heights in meters, or null if none
      */
-    @Query("SELECT SUM(heightMeter) FROM buildings WHERE visitStatus = :status")
+    @Query("SELECT SUM(heightMeters) FROM buildings WHERE visitStatus = :status")
     suspend fun getTotalMetersClimbed(status: VisitStatusEntity = VisitStatusEntity.VISITED): Int?
 }

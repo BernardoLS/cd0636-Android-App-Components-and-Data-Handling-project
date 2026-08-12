@@ -28,7 +28,7 @@ The root response object from the `/api/buildings` endpoint.
 **JSON Structure:**
 ```json
 {
-  "buildings": [...],
+  "buildings": [],
   "pagination": {
     "current_page": 1,
     "page_size": 10,

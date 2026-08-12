@@ -30,3 +30,14 @@ data class CountryEntity(
     val name: String,
     val code: String  // ISO country code (e.g., "US", "AE", "CN")
 )
+
+/**
+ * Extension function to convert CountryDto to CountryEntity.
+ */
+fun com.udacity.project.spire.data.remote.dto.CountryDto.toEntity(): CountryEntity {
+    return CountryEntity(
+        id = id,
+        name = name,
+        code = code
+    )
+}
