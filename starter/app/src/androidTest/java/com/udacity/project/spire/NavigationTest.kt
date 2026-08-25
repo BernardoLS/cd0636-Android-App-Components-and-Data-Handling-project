@@ -6,6 +6,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -18,20 +19,29 @@ class NavigationTest {
 
     @Test
     fun testBottomNavigation() {
-        // Initial state: Buildings should be visible (check for recycler view)
+        // Wait for the app to settle and avoid InjectEventSecurityException
+        Thread.sleep(2000)
+
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
 
-        // Click on My Visits
-        onView(withId(R.id.myVisitsFragment)).perform(click())
-        // In MyVisitsFragment, check for "Visited" chip.
+        onView(allOf(withId(R.id.myVisitsFragment), isDisplayed())).perform(click())
+        
+        Thread.sleep(1000)
+        
         onView(withText("Visited")).check(matches(isDisplayed()))
 
-        // Click on Statistics
-        onView(withId(R.id.statisticsFragment)).perform(click())
+        onView(allOf(withId(R.id.statisticsFragment), isDisplayed())).perform(click())
+        
+        // Wait for fragment transition
+        Thread.sleep(1000)
+        
         onView(withText("Total Buildings")).check(matches(isDisplayed()))
         
-        // Click back to Buildings
-        onView(withId(R.id.buildingsFragment)).perform(click())
+        onView(allOf(withId(R.id.buildingsFragment), isDisplayed())).perform(click())
+        
+        // Wait for fragment transition
+        Thread.sleep(1000)
+
         onView(withId(R.id.recycler_view)).check(matches(isDisplayed()))
     }
 }
