@@ -10,7 +10,7 @@ import com.udacity.project.spire.data.local.entity.CityEntity
  * Data Access Object for City entity.
  * Provides essential database operations for cities.
  *
- * TODO #8: Implement CityDao queries with Room annotations
+ * #8: Implement CityDao queries with Room annotations
  *
  * For getCityByNameAndCountry(name: String, countryId: Int):
  *   - Add @Query with SQL: "SELECT * FROM cities WHERE name = :name AND countryId = :countryId"

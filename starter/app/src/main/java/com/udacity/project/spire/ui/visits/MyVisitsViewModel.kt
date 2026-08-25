@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.catch
  * ViewModel for MyVisitsFragment.
  * Filters buildings by visit status (Visited, Bucket List, Not Visited).
  *
- * TODO #40: Implement MyVisitsViewModel
+ * #40: Implement MyVisitsViewModel
  *
  * This ViewModel:
  * 1. Maintains current filter status (which chip is selected)
@@ -46,7 +46,7 @@ class MyVisitsViewModel(
     val errorEvent: LiveData<Event<ErrorEvent>> = _errorEvent
 
     /**
-     * TODO #40a: Initialize buildings property with switchMap
+     * #40a: Initialize buildings property with switchMap
      *
      * Creates a reactive filter - when currentStatus changes,
      * buildings automatically updates with new filtered list.
@@ -58,11 +58,14 @@ class MyVisitsViewModel(
      * - Use .asLiveData() to convert Flow to LiveData
      * - Each time _currentStatus changes, the filter re-executes automatically
      */
-    val buildings: LiveData<List<Building>>
-        get() = TODO("Initialize buildings with switchMap - see TODO comment above")
+    val buildings: LiveData<List<Building>> = _currentStatus.switchMap { status ->
+        repository.getBuildingsByVisitStatus(status).catch {
+            _errorEvent.value = Event(ErrorEvent(it.message ?: "An error has ocurred", it))
+        }.asLiveData()
+    }
 
     /**
-     * TODO #40b: Implement setFilterStatus() method
+     * #40b: Implement setFilterStatus() method
      *
      * Called when user clicks a chip (Visited, Bucket List, Not Visited).
      *
@@ -72,7 +75,8 @@ class MyVisitsViewModel(
      * - This triggers switchMap above, which updates buildings LiveData
      */
     fun setFilterStatus(status: VisitStatus) {
-        TODO("Implement setFilterStatus() - see TODO comment above")
+        if (_currentStatus.value == status) return
+        _currentStatus.value = status
     }
 }
 

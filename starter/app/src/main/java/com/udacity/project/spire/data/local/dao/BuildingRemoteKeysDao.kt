@@ -10,7 +10,7 @@ import com.udacity.project.spire.data.local.entity.BuildingRemoteKeys
  * Data Access Object for BuildingRemoteKeys.
  * Manages pagination state for buildings.
  *
- * TODO #9: Implement RemoteKeysDao for Paging3 with Room annotations
+ * #9: Implement RemoteKeysDao for Paging3 with Room annotations
  *
  * For insertAll(remoteKeys: List<BuildingRemoteKeys>):
  *   - Add @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -61,14 +61,13 @@ class BuildingDetailViewModel(
      * - Use .asLiveData() to convert Flow to LiveData
      * - Fragment observes this LiveData to display building details
      */
-    val building: LiveData<Building?>
-        get() = repository.getBuildingById(buildingId).onEach { building ->
-            if (building != null) {
-                Log.d("BuildingDetailVM", "Edifício carregado com sucesso: ${building.name} (ID: ${building.id})")
-            } else {
-                Log.w("BuildingDetailVM", "Nenhum edifício encontrado para o ID: $buildingId")
-            }
-        }.asLiveData()
+    val building: LiveData<Building?> = repository.getBuildingById(buildingId).onEach { building ->
+        if (building != null) {
+            Log.d("BuildingDetailVM", "Edifício carregado com sucesso: ${building.name} (ID: ${building.id})")
+        } else {
+            Log.w("BuildingDetailVM", "Nenhum edifício encontrado para o ID: $buildingId")
+        }
+    }.asLiveData()
 
     private val _errorEvent = MutableLiveData<Event<ErrorEvent>>()
     val errorEvent: LiveData<Event<ErrorEvent>> = _errorEvent
@@ -96,7 +95,7 @@ class BuildingDetailViewModel(
      */
     fun updateVisitStatus(status: VisitStatus) {
         viewModelScope.launch {
-            if (buildingId != -1) {
+            if (buildingId == -1) {
                 _errorEvent.value = Event(ErrorEvent("Invalid Building ID"))
                 return@launch
             }

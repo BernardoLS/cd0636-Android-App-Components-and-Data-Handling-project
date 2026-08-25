@@ -14,7 +14,7 @@ import com.udacity.project.spire.domain.model.Building
  * Simple adapter for displaying a list of buildings in a RecyclerView.
  * Used for filtered lists (MyVisitsFragment) without pagination.
  *
- * TODO #44: Implement BuildingAdapter
+ * #44: Implement BuildingAdapter
  *
  * This adapter:
  * 1. Extends ListAdapter for simple list display
@@ -33,25 +33,26 @@ class BuildingAdapter(
 ) : ListAdapter<Building, BuildingAdapter.BuildingViewHolder>(BUILDING_COMPARATOR) {
 
     /**
-     * TODO #44a: Implement onCreateViewHolder()
+     * #44a: Implement onCreateViewHolder()
      *
      * HINT: Same implementation as BuildingPagingAdapter - inflate ItemBuildingBinding and return BuildingViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
-        TODO("Implement onCreateViewHolder() - see BuildingPagingAdapter for reference")
+        val binding = ItemBuildingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BuildingViewHolder(binding, onItemClick)
     }
 
     /**
-     * TODO #44b: Implement onBindViewHolder()
+     * #44b: Implement onBindViewHolder()
      *
      * HINT: Call holder.bind(getItem(position)) - simpler than PagingAdapter since getItem() never returns null
      */
     override fun onBindViewHolder(holder: BuildingViewHolder, position: Int) {
-        TODO("Implement onBindViewHolder() - see TODO comment above")
+        holder.bind(getItem(position))
     }
 
     /**
-     * TODO #44c: Implement ViewHolder bind() method
+     * #44c: Implement ViewHolder bind() method
      *
      * (Same implementation as BuildingPagingAdapter)
      */
@@ -61,7 +62,20 @@ class BuildingAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(building: Building) {
-            TODO("Implement bind() - same as BuildingPagingAdapter.ViewHolder.bind()")
+            binding.apply {
+                textBuildingName.text = building.name
+                textBuildingLocation.text = "${building.city}/${building.country}"
+                textBuildingHeight.text = building.heightMeters.toString()
+                textBuildingFloors.text = building.floors.toString()
+                imageBuilding.load(building.imageUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.placeholder)
+                    error(R.drawable.placeholder)
+                }
+                root.setOnClickListener {
+                    onItemClick(building)
+                }
+            }
         }
     }
 
