@@ -1,13 +1,16 @@
 package com.udacity.project.spire.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.udacity.project.spire.data.local.entity.CityEntity
 
 /**
  * Data Access Object for City entity.
  * Provides essential database operations for cities.
  *
- * TODO #8: Implement CityDao queries with Room annotations
+ * #8: Implement CityDao queries with Room annotations
  *
  * For getCityByNameAndCountry(name: String, countryId: Int):
  *   - Add @Query with SQL: "SELECT * FROM cities WHERE name = :name AND countryId = :countryId"
@@ -38,6 +41,7 @@ interface CityDao {
      * @param countryId The country ID this city belongs to
      * @return CityEntity if found, null otherwise
      */
+    @Query("SELECT * FROM cities WHERE name = :name AND countryId = :countryId")
     suspend fun getCityByNameAndCountry(name: String, countryId: Int): CityEntity?
 
     /**
@@ -45,5 +49,6 @@ interface CityDao {
      * @param city The city to insert
      * @return The row ID of the inserted city
      */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCity(city: CityEntity): Long
 }

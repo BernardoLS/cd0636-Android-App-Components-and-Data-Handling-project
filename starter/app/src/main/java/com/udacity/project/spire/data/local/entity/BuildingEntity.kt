@@ -1,7 +1,14 @@
 package com.udacity.project.spire.data.local.entity
 
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.Relation
 import com.udacity.project.spire.domain.model.Building
 import com.udacity.project.spire.domain.model.VisitStatus
+import java.sql.RowId
 
 /**
  * Room entity representing a building in the local database.
@@ -13,42 +20,39 @@ import com.udacity.project.spire.domain.model.VisitStatus
  * City → Country (Many-to-One)
  * Building → Country (Indirect, through City)
  *
- * TODO #3: Add Room annotations for the Building entity
- *  1. Mark this class as @Entity with tableName = "buildings"
- *  2. Mark 'id' as @PrimaryKey (NOT auto-generated - comes from API)
- *  3. Add @ForeignKey constraint to link building to city:
- *     - entity = CityEntity::class
- *     - parentColumns = ["id"]  (CityEntity's primary key)
- *     - childColumns = ["cityId"]  (BuildingEntity's foreign key)
- *     - onDelete = ForeignKey.RESTRICT  (prevent deleting cities with buildings)
- *     - onUpdate = ForeignKey.CASCADE  (update buildingCityId when city id changes)
- *  4. Add indices for performance:
- *     - Index on "cityId" (for foreign key lookups and JOIN queries)
- *     - Index on "name" (for searching buildings by name)
+ *#3: Add Room annotations for the Building entity
  *
- *  HINT: A building belongs to a city (many-to-one relationship)
- *  HINT: RESTRICT prevents data loss - you can't delete a city that has buildings
- *
- *  Required imports:
- *  - androidx.room.Entity
- *  - androidx.room.PrimaryKey
- *  - androidx.room.ForeignKey
- *  - androidx.room.Index
  */
+@Entity(
+    tableName = "buildings",
+    foreignKeys = [ForeignKey(
+        entity = CityEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["cityId"],
+        onDelete = ForeignKey.RESTRICT,
+        onUpdate = ForeignKey.CASCADE
+    )],
+    indices = [Index("cityId"), Index("name")]
+)
 data class BuildingEntity(
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
-    // TODO (Part of #3): Add remaining properties
-    // Refer to Building domain model for the complete list of properties needed
-    // Include: name, imageUrl, heightMeters, floors, yearCompleted, architecturalStyle,
-    //          description, visitStatus (as VisitStatusEntity), cityId (foreign key)
-
+    val name: String,
+    val imageUrl: String,
+    val heightMeters: Int,
+    val floors: Int,
+    val yearCompleted: Int,
+    val architecturalStyle: String,
+    val description: String,
+    val visitStatus: VisitStatusEntity,
+    val cityId: Int
 )
 
 /**
  * Data class representing a building with its city and country details.
  * Used for JOIN queries to get complete building information.
  *
- * TODO #4: Add Room relation annotations
+ * #4: Add Room relation annotations
  *  1. Mark 'building' as @Embedded
  *     - This includes all BuildingEntity fields in the query result
  *  2. Add @Relation annotation to 'city':
@@ -65,14 +69,20 @@ data class BuildingEntity(
  *  - androidx.room.Relation
  */
 data class BuildingWithDetails(
+    @Embedded
     val building: BuildingEntity,
+    @Relation(
+        entity = CityEntity::class,
+        parentColumn = "cityId",
+        entityColumn = "id",
+    )
     val city: CityWithCountry
 )
 
 /**
  * Data class representing a city with its country details.
  *
- * TODO #5: Add Room relation annotations
+ * #5: Add Room relation annotations
  *  1. Mark 'city' as @Embedded
  *     - This includes all CityEntity fields in the query result
  *  2. Add @Relation annotation to 'country':
@@ -87,7 +97,13 @@ data class BuildingWithDetails(
  *  - androidx.room.Relation
  */
 data class CityWithCountry(
+    @Embedded
     val city: CityEntity,
+    @Relation(
+        entity = CountryEntity::class,
+        parentColumn = "countryId",
+        entityColumn = "id"
+    )
     val country: CountryEntity
 )
 
@@ -97,9 +113,16 @@ data class CityWithCountry(
 fun BuildingWithDetails.toDomainModel(): Building {
     return Building(
         id = building.id,
-        // TODO (Part of #4): Add remaining properties
-        // Map all properties from building, city, and country to the Building domain model
-        // Use city.city.name, city.country.name, building.visitStatus.toDomainModel(), etc.
+        name = building.name,
+        imageUrl = building.imageUrl,
+        heightMeters = building.heightMeters,
+        floors = building.floors,
+        yearCompleted = building.yearCompleted,
+        architecturalStyle = building.architecturalStyle,
+        description = building.description,
+        visitStatus = building.visitStatus.toDomainModel(),
+        city = city.city.name,
+        country = city.country.name
     )
 }
 
@@ -123,4 +146,42 @@ fun VisitStatus.toEntity(): VisitStatusEntity {
         VisitStatus.BUCKET_LIST -> VisitStatusEntity.BUCKET_LIST
         VisitStatus.VISITED -> VisitStatusEntity.VISITED
     }
+}
+
+/**
+ * Extension function to convert domain Building model to BuildingEntity.
+ * @param cityId The ID of the city this building belongs to
+ */
+fun Building.toEntity(cityId: Int): BuildingEntity {
+    return BuildingEntity(
+        id = id,
+        name = name,
+        imageUrl = imageUrl,
+        heightMeters = heightMeters,
+        floors = floors,
+        yearCompleted = yearCompleted,
+        architecturalStyle = architecturalStyle,
+        description = description,
+        visitStatus = visitStatus.toEntity(),
+        cityId = cityId
+    )
+}
+
+/**
+ * Extension function to convert BuildingDto to BuildingEntity.
+ * @param cityId The ID of the city this building belongs to
+ */
+fun com.udacity.project.spire.data.remote.dto.BuildingDto.toEntity(cityId: Int): BuildingEntity {
+    return BuildingEntity(
+        id = id,
+        name = name,
+        imageUrl = imageUrl,
+        heightMeters = heightMeters,
+        floors = floors,
+        yearCompleted = yearCompleted,
+        architecturalStyle = architecturalStyle,
+        description = description,
+        visitStatus = VisitStatusEntity.NOT_VISITED,
+        cityId = cityId
+    )
 }

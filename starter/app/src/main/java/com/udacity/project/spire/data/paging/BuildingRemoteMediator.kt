@@ -11,6 +11,8 @@ import com.udacity.project.spire.data.local.entity.BuildingRemoteKeys
 import com.udacity.project.spire.data.local.entity.BuildingWithDetails
 import com.udacity.project.spire.data.local.entity.CityEntity
 import com.udacity.project.spire.data.local.entity.CountryEntity
+import com.udacity.project.spire.data.local.entity.VisitStatusEntity
+import com.udacity.project.spire.data.local.entity.toEntity
 import com.udacity.project.spire.data.remote.api.BuildingApiService
 import com.udacity.project.spire.data.remote.dto.BuildingDto
 
@@ -35,7 +37,7 @@ class BuildingRemoteMediator(
     private val remoteKeysDao = database.buildingRemoteKeysDao()
 
     /**
-     * TODO #28: Implement RemoteMediator.load() for Paging3
+     * #28: Implement RemoteMediator.load() for Paging3
      *
      * This is the heart of Paging3's network-database synchronization.
      * This method is called by Paging3 to load data from the network and save it to the database.
@@ -72,7 +74,53 @@ class BuildingRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, BuildingWithDetails>
     ): MediatorResult {
-        TODO("Implement RemoteMediator.load() - see TODO comment above for detailed steps")
+        val page = when (loadType) {
+            LoadType.REFRESH -> {
+                val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                remoteKeys?.nextKey?.minus(1) ?: initialPage
+            }
+            LoadType.PREPEND -> {
+                return MediatorResult.Success(endOfPaginationReached = true)
+            }
+            LoadType.APPEND -> {
+                val remoteKeys = getRemoteKeyForLastItem(state)
+                val nextKey = remoteKeys?.nextKey
+                    ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+                nextKey
+            }
+        }
+
+        try {
+            val apiResponse = apiService.getBuildingsPaginated(
+                page = page,
+                limit = state.config.pageSize
+            )
+
+            val buildings = apiResponse.buildings
+            val endOfPaginationReached = buildings.isEmpty() || apiResponse.pagination?.hasNext == false
+
+            database.withTransaction {
+                if (loadType == LoadType.REFRESH) {
+                    remoteKeysDao.clearRemoteKeys()
+                    buildingDao.clearBuildings()
+                }
+
+                val prevKey = if (page == initialPage) null else page - 1
+                val nextKey = if (endOfPaginationReached) null else page + 1
+
+                val keys = buildings.map {
+                    BuildingRemoteKeys(buildingId = it.id, prevKey = prevKey, nextKey = nextKey)
+                }
+
+                remoteKeysDao.insertAll(keys)
+                val entities = buildings.map { buildingDtoToEntity(it) }
+                buildingDao.insertBuildings(entities)
+            }
+
+            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+        } catch (exception: Exception) {
+            return MediatorResult.Error(exception)
+        }
     }
 
     /**
@@ -80,16 +128,10 @@ class BuildingRemoteMediator(
      * Creates or gets the necessary Country and City entities.
      */
     private suspend fun buildingDtoToEntity(dto: BuildingDto): BuildingEntity {
-        //val countryId = getOrCreateCountry()
-        //val cityId = getOrCreateCity()
+        val countryId = getOrCreateCountry(dto.country.name, dto.country.code)
+        val cityId = getOrCreateCity(dto.city.name, countryId)
 
-        return BuildingEntity(
-            id = dto.id,
-            // TODO (Part of #28): Add remaining properties
-            // Map all properties from BuildingDto to BuildingEntity
-            // Use getOrCreateCountry() and getOrCreateCity() to get foreign key IDs
-            // Convert VisitStatus to VisitStatusEntity using .toEntity()
-        )
+        return dto.toEntity(cityId)
     }
 
     /**

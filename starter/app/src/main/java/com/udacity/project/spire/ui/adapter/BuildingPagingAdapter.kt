@@ -1,6 +1,5 @@
 package com.udacity.project.spire.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
@@ -15,7 +14,7 @@ import com.udacity.project.spire.domain.model.Building
  * PagingDataAdapter for displaying buildings in a RecyclerView with Paging 3.
  * Automatically handles pagination, loading states, and efficient updates.
  *
- * TODO #43: Implement BuildingPagingAdapter
+ * #43: Implement BuildingPagingAdapter
  *
  * This adapter:
  * 1. Extends PagingDataAdapter for Paging3 support
@@ -37,7 +36,7 @@ class BuildingPagingAdapter(
 ) : PagingDataAdapter<Building, BuildingPagingAdapter.BuildingViewHolder>(BUILDING_COMPARATOR) {
 
     /**
-     * TODO #43a: Implement onCreateViewHolder()
+     * #43a: Implement onCreateViewHolder()
      *
      * Creates a new ViewHolder for building items.
      *
@@ -47,11 +46,12 @@ class BuildingPagingAdapter(
      * - Return BuildingViewHolder(binding, onItemClick)
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BuildingViewHolder {
-        TODO("Implement onCreateViewHolder() - see TODO comment above")
+        val binding = ItemBuildingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return BuildingViewHolder(binding, onItemClick)
     }
 
     /**
-     * TODO #43b: Implement onBindViewHolder()
+     * #43b: Implement onBindViewHolder()
      *
      * Binds data to an existing ViewHolder.
      *
@@ -61,14 +61,15 @@ class BuildingPagingAdapter(
      * - Call holder.bind(building) to update UI
      */
     override fun onBindViewHolder(holder: BuildingViewHolder, position: Int) {
-        TODO("Implement onBindViewHolder() - see TODO comment above")
+        val building = getItem(position)
+        if (building != null) holder.bind(building)
     }
 
     /**
      * ViewHolder for building items.
      * Displays building information and handles click events.
      *
-     * TODO #43c: Implement bind() method in ViewHolder
+     * #43c: Implement bind() method in ViewHolder
      */
     class BuildingViewHolder(
         private val binding: ItemBuildingBinding,
@@ -76,12 +77,12 @@ class BuildingPagingAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         /**
-         * TODO #43c: Implement bind() method
+         * #43c: Implement bind() method
          *
          * Binds building data to views.
          *
          * STEPS:
-         * 1. Use binding.apply { } to access views
+         * 1. Use binding apply { } to access views
          * 2. Set text fields: name, location, height, floors
          * 3. Load image using imageBuilding.load(building.imageUrl)
          * 4. Set click listener on root
@@ -92,7 +93,23 @@ class BuildingPagingAdapter(
          * - root is the entire item layout
          */
         fun bind(building: Building) {
-            TODO("Implement bind() - see TODO comment above")
+            binding.apply {
+                textBuildingName.text = building.name
+                textBuildingLocation.text = root.context.getString(R.string.building_location_format, building.city, building.country)
+                textBuildingHeight.text = root.context.getString(R.string.building_height_format, building.heightMeters)
+                textBuildingFloors.text = root.context.getString(R.string.building_floors_format, building.floors)
+                
+                imageBuilding.contentDescription = root.context.getString(R.string.building_image) + ": " + building.name
+
+                imageBuilding.load(building.imageUrl) {
+                    crossfade(true)
+                    placeholder(R.drawable.placeholder)
+                    error(R.drawable.placeholder)
+                }
+                root.setOnClickListener {
+                    onItemClick(building)
+                }
+            }
         }
     }
 

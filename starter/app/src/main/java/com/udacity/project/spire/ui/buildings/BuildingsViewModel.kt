@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
  * ViewModel for BuildingsFragment.
  * Manages paginated building data using Paging3.
  *
- * TODO #38: Implement BuildingsViewModel
+ * #38: Implement BuildingsViewModel
  *
  * This ViewModel exposes:
  * 1. A Flow of PagingData for the buildings list
@@ -36,22 +36,21 @@ class BuildingsViewModel(
 ) : ViewModel() {
 
     /**
-     * TODO #38a: Initialize buildings property
+     * #38a: Initialize buildings property
      *
      * HINTS:
      * - Call repository.getBuildings() to get Flow<PagingData<Building>>
      * - Use .cachedIn(viewModelScope) to prevent reloading on configuration changes
      * - Fragment will collect this Flow using lifecycleScope
      */
-    val buildings: Flow<PagingData<Building>>
-        get() = TODO("Initialize buildings Flow - see TODO comment above")
+    val buildings: Flow<PagingData<Building>> = repository.getBuildings().cachedIn(viewModelScope)
 
     // Error state exposed to UI
     private val _errorEvent = MutableLiveData<Event<ErrorEvent>>()
     val errorEvent: LiveData<Event<ErrorEvent>> = _errorEvent
 
     /**
-     * TODO #38b: Implement refresh() method
+     *  #38b: Implement refresh() method
      *
      * Called when user swipes to refresh the list.
      *
@@ -62,7 +61,16 @@ class BuildingsViewModel(
      * - On success, Paging3's RemoteMediator automatically updates the list
      */
     fun refresh() {
-        TODO("Implement refresh() - see TODO comment above")
+        viewModelScope.launch {
+            repository.refreshBuildings().onFailure { it ->
+                _errorEvent.value = Event(
+                    ErrorEvent(
+                        it.message ?: "An error occurred during refresh",
+                        it)
+                )
+            }
+
+        }
     }
 }
 

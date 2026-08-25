@@ -5,6 +5,7 @@ import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -15,7 +16,7 @@ import com.udacity.project.spire.databinding.ActivityMainBinding
 /**
  * Main activity that hosts navigation and manages the app's UI.
  *
- * TODO #46: Implement Navigation Component setup
+ * #46: Implement Navigation Component setup
  *
  * This activity demonstrates:
  * 1. ViewBinding for type-safe view access
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     )
 
     /**
-     * TODO #46a: Implement navController property
+     * #46a: Implement navController property
      *
      * Get the NavController from NavHostFragment.
      *
@@ -57,7 +58,8 @@ class MainActivity : AppCompatActivity() {
      * - Use 'by lazy' for lazy initialization
      */
     private val navController: NavController by lazy {
-        TODO("Get NavController from NavHostFragment - see TODO comment above")
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navHost.navController
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         /**
-         * TODO #46b: Configure AppBarConfiguration and Navigation
+         * #46b: Configure AppBarConfiguration and Navigation
          *
          * STEPS:
          * 1. Create AppBarConfiguration with topLevelDestinations
@@ -84,10 +86,15 @@ class MainActivity : AppCompatActivity() {
          * - setupWithNavController links bottom nav to navigation (auto-selects tabs)
          */
         // Implement the steps above here
+        appBarConfiguration = AppBarConfiguration(topLevelDestinations)
+
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.bottomNavigation.setupWithNavController(navController)
+        setupBottomNavVisibility()
     }
 
     /**
-     * TODO #46c: Implement setupBottomNavVisibility()
+     * #46c: Implement setupBottomNavVisibility()
      *
      * Show/hide bottom navigation based on current destination.
      * Update toolbar title dynamically.
@@ -104,11 +111,25 @@ class MainActivity : AppCompatActivity() {
      * - Detail screens should hide bottom nav
      */
     private fun setupBottomNavVisibility() {
-        TODO("Setup bottom navigation visibility - see TODO comment above")
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val isTopLevel = topLevelDestinations.contains(destination.id)
+            binding.bottomNavigation.visibility = if (isTopLevel) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+            binding.collapsingToolbar.title = when (destination.id) {
+                R.id.buildingsFragment -> "Buildings"
+                R.id.myVisitsFragment -> "Visits"
+                R.id.statisticsFragment -> "Statistics"
+                else -> binding.collapsingToolbar.title
+            }
+
+        }
     }
 
     /**
-     * TODO #46d: Implement onSupportNavigateUp()
+     * #46d: Implement onSupportNavigateUp()
      *
      * Handle up button clicks in the toolbar.
      *
@@ -118,6 +139,7 @@ class MainActivity : AppCompatActivity() {
      * - Chain with || super.onSupportNavigateUp() as fallback
      */
     override fun onSupportNavigateUp(): Boolean {
-        TODO("Implement up navigation - see TODO comment above")
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }

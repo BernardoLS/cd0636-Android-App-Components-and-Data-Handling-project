@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
  * ViewModel for StatisticsFragment.
  * Loads and displays aggregated building statistics.
  *
- * TODO #42: Implement StatisticsViewModel
+ * #42: Implement StatisticsViewModel
  *
  * This ViewModel:
  * 1. Loads statistics from repository on init
@@ -45,14 +45,14 @@ class StatisticsViewModel(
     val isLoading: LiveData<Boolean> = _isLoading
 
     /**
-     * TODO #42a: Add init block to load statistics on creation
+     * #42a: Add init block to load statistics on creation
      *
      * HINT: Add init { loadStatistics() } - runs when ViewModel is created
      */
-    // Add the init block here (see TODO #42a above)
-
+    // Add the init block here (see #42a above)
+    init { loadStatistics() }
     /**
-     * TODO #42b: Implement loadStatistics() method
+     * #42b: Implement loadStatistics() method
      *
      * Loads statistics from repository with loading state and error handling.
      *
@@ -69,7 +69,17 @@ class StatisticsViewModel(
      * - Fragment can call this method for retry functionality
      */
     fun loadStatistics() {
-        TODO("Implement loadStatistics() - see TODO comment above")
+        viewModelScope.launch {
+          _isLoading.value = true
+            try {
+                _statistics.value = repository.getStatistics()
+            } catch(e: Exception) {
+                _errorEvent.value = Event(ErrorEvent(e.message ?: "An error has ocurred", e))
+                _statistics.value = BuildingStatistics(0,0,0,0,0)
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 }
 

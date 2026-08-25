@@ -1,13 +1,16 @@
 package com.udacity.project.spire.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.Companion.REPLACE
+import androidx.room.Query
 import com.udacity.project.spire.data.local.entity.BuildingRemoteKeys
 
 /**
  * Data Access Object for BuildingRemoteKeys.
  * Manages pagination state for buildings.
  *
- * TODO #9: Implement RemoteKeysDao for Paging3 with Room annotations
+ * #9: Implement RemoteKeysDao for Paging3 with Room annotations
  *
  * For insertAll(remoteKeys: List<BuildingRemoteKeys>):
  *   - Add @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -44,6 +47,7 @@ interface BuildingRemoteKeysDao {
      *
      * @param remoteKeys List of remote keys to insert
      */
+    @Insert(onConflict = REPLACE)
     suspend fun insertAll(remoteKeys: List<BuildingRemoteKeys>)
 
     /**
@@ -53,11 +57,13 @@ interface BuildingRemoteKeysDao {
      * @param buildingId The building ID
      * @return RemoteKeys for that building, or null if not found
      */
+    @Query("SELECT * FROM building_remote_keys WHERE buildingId = :buildingId")
     suspend fun remoteKeysByBuildingId(buildingId: Int): BuildingRemoteKeys?
 
     /**
      * Clear all remote keys.
      * Called during REFRESH to reset pagination state.
      */
+    @Query("DELETE FROM building_remote_keys")
     suspend fun clearRemoteKeys()
 }

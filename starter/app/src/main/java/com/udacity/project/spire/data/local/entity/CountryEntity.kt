@@ -1,10 +1,14 @@
 package com.udacity.project.spire.data.local.entity
 
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+
 /**
  * Room entity representing a country.
  * A country can have many cities.
  *
- * TODO #1: Add Room annotations to this entity
+ * #1: Add Room annotations to this entity
  *  1. Mark this class as a Room @Entity with tableName = "countries"
  *  2. Mark 'id' as @PrimaryKey with autoGenerate = true
  *  3. Add an @Index on 'name' with unique = true
@@ -18,8 +22,22 @@ package com.udacity.project.spire.data.local.entity
  *  - androidx.room.PrimaryKey
  *  - androidx.room.Index
  */
+@Entity(tableName = "countries",
+    indices = [Index("name", unique = true)])
 data class CountryEntity(
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
     val code: String  // ISO country code (e.g., "US", "AE", "CN")
 )
+
+/**
+ * Extension function to convert CountryDto to CountryEntity.
+ */
+fun com.udacity.project.spire.data.remote.dto.CountryDto.toEntity(): CountryEntity {
+    return CountryEntity(
+        id = id,
+        name = name,
+        code = code
+    )
+}

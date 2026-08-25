@@ -19,7 +19,7 @@ DTOs serve as an intermediary layer between the API and your domain models:
 
 ---
 
-## TODO #23-27: Create the following DTO classes (5 classes)
+## #23-27: Create the following DTO classes (5 classes)
 
 ### 1. BuildingsResponse
 
@@ -28,7 +28,7 @@ The root response object from the `/api/buildings` endpoint.
 **JSON Structure:**
 ```json
 {
-  "buildings": [...],
+  "buildings": [],
   "pagination": {
     "current_page": 1,
     "page_size": 10,

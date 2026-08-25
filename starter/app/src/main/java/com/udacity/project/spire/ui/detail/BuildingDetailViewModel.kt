@@ -16,13 +16,14 @@ import com.udacity.project.spire.domain.model.VisitStatus
 import com.udacity.project.spire.ui.common.ErrorEvent
 import com.udacity.project.spire.ui.common.Event
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for BuildingDetailFragment.
  * Loads a specific building by ID and handles visit status updates.
  *
- * TODO #39: Implement BuildingDetailViewModel
+ * #39: Implement BuildingDetailViewModel
  *
  * This ViewModel:
  * 1. Gets buildingId from navigation arguments via SavedStateHandle
@@ -45,12 +46,8 @@ class BuildingDetailViewModel(
         BuildingDetailFragmentArgs.fromSavedStateHandle(savedStateHandle).buildingId
 
 
-    init {
-        Log.d("BuildingDetailViewModel", "buildingIdLiveData: ${buildingId}")
-    }
-
     /**
-     * TODO #39a: Initialize building property
+     * #39a: Initialize building property
      *
      * Load building data from repository based on buildingId.
      *
@@ -60,10 +57,8 @@ class BuildingDetailViewModel(
      * - Use .asLiveData() to convert Flow to LiveData
      * - Fragment observes this LiveData to display building details
      */
-    val building: LiveData<Building?>
-        get() = TODO("Initialize building LiveData - see TODO comment above")
+    val building: LiveData<Building?> = repository.getBuildingById(buildingId).asLiveData()
 
-    // Error state exposed to UI
     private val _errorEvent = MutableLiveData<Event<ErrorEvent>>()
     val errorEvent: LiveData<Event<ErrorEvent>> = _errorEvent
 
@@ -72,7 +67,7 @@ class BuildingDetailViewModel(
     val updateSuccess: LiveData<Event<String>> = _updateSuccess
 
     /**
-     * TODO #39b: Implement updateVisitStatus() method
+     * #39b: Implement updateVisitStatus() method
      *
      * Called when user clicks "Mark as Visited" or "Add to Bucket List" buttons.
      *
@@ -89,7 +84,21 @@ class BuildingDetailViewModel(
      * - Fragment shows success message via Snackbar
      */
     fun updateVisitStatus(status: VisitStatus) {
-        TODO("Implement updateVisitStatus() - see TODO comment above")
+        viewModelScope.launch {
+            if (buildingId == -1) {
+                _errorEvent.value = Event(ErrorEvent("Invalid Building ID"))
+                return@launch
+            }
+
+            repository.updateBuildingVisitStatus(buildingId, status).fold(
+                onSuccess = {
+                    _updateSuccess.value = Event("Building $buildingId updated with success")
+                },
+                onFailure = {
+                    _errorEvent.value = Event(ErrorEvent("An error occurred updating building $buildingId"))
+                }
+            )
+        }
     }
 }
 
