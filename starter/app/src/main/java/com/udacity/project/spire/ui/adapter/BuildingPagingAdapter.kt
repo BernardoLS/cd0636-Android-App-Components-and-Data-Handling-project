@@ -95,9 +95,12 @@ class BuildingPagingAdapter(
         fun bind(building: Building) {
             binding.apply {
                 textBuildingName.text = building.name
-                textBuildingLocation.text = "${building.city}/${building.country}"
-                textBuildingHeight.text = building.heightMeters.toString()
-                textBuildingFloors.text = building.floors.toString()
+                textBuildingLocation.text = root.context.getString(R.string.building_location_format, building.city, building.country)
+                textBuildingHeight.text = root.context.getString(R.string.building_height_format, building.heightMeters)
+                textBuildingFloors.text = root.context.getString(R.string.building_floors_format, building.floors)
+                
+                imageBuilding.contentDescription = root.context.getString(R.string.building_image) + ": " + building.name
+
                 imageBuilding.load(building.imageUrl) {
                     crossfade(true)
                     placeholder(R.drawable.placeholder)

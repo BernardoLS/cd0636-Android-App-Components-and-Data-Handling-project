@@ -84,12 +84,15 @@ class BuildingDetailFragment : Fragment() {
             // 3. Call updateButtons(building.visitStatus) to set button states
             //updateButtons(building.visitStatus)
             textBuildingName.text = building.name
-            textLocation.text = building.city
-            textHeight.text = "Height: ${building.heightMeters} meters"
-            textFloors.text = "Floors: ${building.floors}"
-            textYear.text = building.yearCompleted.toString()
-            textStyle.text = building.architecturalStyle
+            textLocation.text = getString(R.string.building_location_format, building.city, building.country)
+            textHeight.text = getString(R.string.building_height_label_format, building.heightMeters)
+            textFloors.text = getString(R.string.building_floors_label_format, building.floors)
+            textYear.text = getString(R.string.building_year_format, building.yearCompleted)
+            textStyle.text = getString(R.string.building_style_format, building.architecturalStyle)
             textDescription.text = building.description
+            
+            imageBuilding.contentDescription = getString(R.string.building_image) + ": " + building.name
+
             imageBuilding.load(building.imageUrl) {
                 placeholder(R.drawable.placeholder)
                 error(R.drawable.placeholder)
